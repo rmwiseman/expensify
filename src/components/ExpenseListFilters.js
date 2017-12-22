@@ -64,4 +64,4 @@ const mapDispatchToProps = (dispatch) => ({
   sortByAmount: () => dispatch(sortByAmount())
 });
 
-export default connect(mapStateToProps)(ExpenseListFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseListFilters);
