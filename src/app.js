@@ -20,6 +20,5 @@ const jsx = (
     <AppRouter />
   </Provider>
 );
-console.log('hello from line 23');
 
 ReactDOM.render(jsx, document.getElementById('app'));
