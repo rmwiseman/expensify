@@ -6,9 +6,9 @@ import totalExpenses from '../selectors/expenses-total';
 
 export const ExpensesSummary = ({ expenseCount, expensesTotal }) => (
   <div>
-  Showing {expenseCount} expense{expenseCount == 1 || 's'} totalling &pound;{
+  <h1>Showing {expenseCount} expense{expenseCount == 1 || 's'} totalling &pound;{
     numeral(expensesTotal/100).format('0,0.00')
-  }
+  }</h1>
   </div>
 );
 
