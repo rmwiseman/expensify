@@ -1,11 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-  startAddExpense,
   addExpense,
   editExpense,
   removeExpense,
   setExpenses,
+  startAddExpense,
+  startEditExpense,
   startSetExpenses,
   startRemoveExpense
 } from '../../actions/expenses';
@@ -140,9 +141,34 @@ test('should remove expense from firebase', (done) => {
       type: 'REMOVE_EXPENSE',
       id
     });
-    database.ref(`expenses/${id}`).once('value').then((snapshot) => {
-      expect(snapshot.val()).toBe(null);
-      done();
+    // Could use .then() here but chaining promises is neater, so return the promis
+    return database.ref(`expenses/${id}`).once('value');
+  }).then((snapshot) => {
+    expect(snapshot.val()).toBe(null);
+    done();
+  });
+});
+
+test('should edit expenses in firebase', (done) => {
+  const store = createMockStore({});
+  const id = expenses[0].id;
+  const updates = { amount: 1234567 };
+  store.dispatch(startEditExpense(id, updates)).then(() => {
+     const actions = store.getActions();
+     expect(actions[0]).toEqual({
+       type: 'EDIT_EXPENSE',
+       id,
+       updates
+     });
+     return database.ref(`expenses/${id}`).once('value');
+  }).then((snapshot) => {
+    const { description, note, createdAt } = expenses[0];
+    expect(snapshot.val()).toEqual({
+      description,
+      note,
+      createdAt,
+      ...updates
     });
+    done();
   });
 });
