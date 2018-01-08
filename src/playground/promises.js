@@ -18,7 +18,7 @@ promise.then((data) => {
     setTimeout(() => {
       resolve('This is my other promise');
     }, 5000);
-  });;
+  });
 }).then((str) => {
   console.log('Does this run?', str);
 }).catch((error) => {
